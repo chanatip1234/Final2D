@@ -75,6 +75,11 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
         }
+        else
+        {        
+            float direction = transform.localScale.x;
+            rb.linearVelocity = new Vector2(direction * slideSpeed, rb.linearVelocity.y);
+        }
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer);
     }

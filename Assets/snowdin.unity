@@ -1287,6 +1287,8 @@ GameObject:
   - component: {fileID: 1076340568}
   - component: {fileID: 1076340567}
   - component: {fileID: 1076340569}
+  - component: {fileID: 1076340571}
+  - component: {fileID: 1076340570}
   m_Layer: 0
   m_Name: penguin
   m_TagString: Untagged
@@ -1384,7 +1386,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 4
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1455,7 +1457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 5
-  jumpForce: 8
+  jumpForce: 12
   groundCheck: {fileID: 67227353}
   checkRadius: 0.2
   groundLayer:
@@ -1464,6 +1466,40 @@ MonoBehaviour:
   slideSpeed: 10
   slideTime: 0.5
   slideCooldown: 1
+--- !u!95 &1076340570
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076340564}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5229db9e59af15640a83e6dcbe331fad, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1076340571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076340564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d147fce402c9fc49bbdcf9e49a7a0ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimator
 --- !u!1001 &1093558745
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2416,7 +2452,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2461,7 +2497,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
   target: {fileID: 1076340566}
   smoothSpeed: 5
-  offset: {x: 0, y: 2, z: 0}
+  offset: {x: 0, y: 2, z: -5}
 --- !u!4 &1796155718 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4186840065063805762, guid: e982e16afcdf7f944bd78e8ab68ae1fb, type: 3}
