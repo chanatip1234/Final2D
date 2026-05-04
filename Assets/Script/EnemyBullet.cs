@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
-    public float damage = 10f;
+    [HideInInspector] public float damage;
+ 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -13,7 +14,7 @@ public class EnemyBullet : MonoBehaviour
             {
                 player.TakeDamage(damage);
             }
-            Destroy(gameObject);
+            Destroy(gameObject); 
         }
 
         if (collision.CompareTag("Ground") || collision.CompareTag("Trap"))

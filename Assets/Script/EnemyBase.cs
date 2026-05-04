@@ -29,7 +29,10 @@ public class EnemyBase : MonoBehaviour
     private float nextShootTime;
 
     [Header("UI References")]
-    public Slider healthSlider; 
+    public Slider healthSlider;
+
+    [Header("Attack Settings")]
+    public float attackDamage = 20f;
 
     [HideInInspector] public Transform player;
     protected Rigidbody2D rb;
@@ -84,22 +87,40 @@ public class EnemyBase : MonoBehaviour
         if (Time.time >= nextShootTime)
         {
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+
+            EnemyBullet bulletScript = bullet.GetComponent<EnemyBullet>();
+            if (bulletScript != null)
+            {
+                bulletScript.damage = attackDamage;
+            }
+
             Vector2 shootDir = (Vector2)player.position - (Vector2)firePoint.position;
             Vector2 finalVelocity = shootDir.normalized * launchForce + (Vector2.up * 3f);
-
             bullet.GetComponent<Rigidbody2D>().linearVelocity = finalVelocity;
+
             nextShootTime = Time.time + shootCooldown;
         }
     }
 
     public virtual void TakeDamage(float damage)
     {
-        health -= damage;
-        if (healthSlider != null) healthSlider.value = health;
-        if (health <= 0) Die();
+        health -= damage; 
+
+        if (healthSlider != null)
+        {
+            healthSlider.value = health; 
+        }
+
+        if (health <= 0)
+        {
+            Die(); 
+        }
     }
 
-    protected void Die() { Destroy(gameObject); }
+    protected void Die()
+    {
+        Destroy(gameObject); 
+    }
 
     protected void Flip()
     {
