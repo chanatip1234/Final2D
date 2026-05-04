@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
@@ -20,12 +21,20 @@ public class EnemyBase : MonoBehaviour
     public float launchForce = 10f;
     private float nextShootTime;
 
+    public Slider healthSlider;
+
     public Transform player;
 
     protected virtual void Start()
     {
         startPos = transform.position;
         player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        if (healthSlider != null)
+        {
+            healthSlider.maxValue = health;
+            healthSlider.value = health;
+        }
     }
 
     protected virtual void Update()
@@ -70,6 +79,12 @@ public class EnemyBase : MonoBehaviour
     public virtual void TakeDamage(float damage)
     {
         health -= damage;
+
+        if (healthSlider != null)
+        {
+            healthSlider.value = health;
+        }
+
         if (health <= 0) Die();
     }
 
@@ -84,4 +99,10 @@ public class EnemyBase : MonoBehaviour
         scale.x *= -1;
         transform.localScale = scale;
     }
+
+    void LateUpdate()
+    {
+        healthSlider.transform.rotation = Quaternion.identity;
+    }
+
 }
