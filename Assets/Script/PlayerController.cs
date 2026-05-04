@@ -17,6 +17,13 @@ public class PlayerController : MonoBehaviour
     public float slideTime = 0.5f;
     public float slideCooldown = 1f;
 
+    [Header("Shooting")]
+    public GameObject snowballPrefab;
+    public Transform firePoint;
+    public float launchForce = 10f;
+    public float shootCooldown = 0.5f;
+    private float nextShootTime = 0f;
+
     private bool isSliding;
     private bool canSlide = true;
 
@@ -42,31 +49,33 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetMouseButtonDown(0) && Time.time >= nextShootTime)
+        {
+            ShootSnowball();
+            nextShootTime = Time.time + shootCooldown;
+        }
+
         moveInput = Input.GetAxisRaw("Horizontal");
 
-        // กระโดด
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !isSliding)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
 
-        // หันหน้า
         if (moveInput > 0)
             transform.localScale = new Vector3(1, 1, 1);
         else if (moveInput < 0)
             transform.localScale = new Vector3(-1, 1, 1);
 
-        // Slide (Ctrl)
         if (Input.GetKeyDown(KeyCode.LeftControl) && isGrounded && canSlide && !isSliding)
         {
-            anim.SetTrigger("preSlide"); // 🔥 เล่นท่าก้มก่อน
+            anim.SetTrigger("preSlide");
             StartCoroutine(Slide());
         }
 
-        // ส่งค่าไป Animator
         anim.SetFloat("speed", Mathf.Abs(moveInput));
         anim.SetBool("isGrounded", isGrounded);
-        anim.SetBool("isSliding", isSliding); // 🔥 สำคัญ
+        anim.SetBool("isSliding", isSliding);
     }
 
     void FixedUpdate()
@@ -76,7 +85,7 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
         }
         else
-        {        
+        {
             float direction = transform.localScale.x;
             rb.linearVelocity = new Vector2(direction * slideSpeed, rb.linearVelocity.y);
         }
@@ -89,7 +98,6 @@ public class PlayerController : MonoBehaviour
         isSliding = true;
         canSlide = false;
 
-        // ลด collider (หมอบ)
         col.size = new Vector2(originalSize.x, originalSize.y * 0.5f);
         col.offset = new Vector2(originalOffset.x, originalOffset.y - originalSize.y * 0.25f);
 
@@ -98,7 +106,6 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(slideTime);
 
-        // คืน collider
         col.size = originalSize;
         col.offset = originalOffset;
 
@@ -106,5 +113,19 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(slideCooldown);
         canSlide = true;
+    }
+    void ShootSnowball()
+    {
+        anim.SetTrigger("attack");
+
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 10f;
+        Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(mousePos);
+        worldMousePos.z = 0;
+
+        Vector2 direction = (Vector2)worldMousePos - (Vector2)firePoint.position;
+        GameObject ball = Instantiate(snowballPrefab, firePoint.position, Quaternion.identity);
+
+        ball.GetComponent<Snowball>().Launch(direction.normalized * launchForce + (Vector2.up * 2f));
     }
 }
