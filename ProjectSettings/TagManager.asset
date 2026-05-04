@@ -10,13 +10,13 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Enemy
   - Water
   - UI
   - Ground
   - 'Player '
   - Bullet
-  - 
+  - Trap
   - 
   - 
   - 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5546261716639749789}
   - component: {fileID: 1233951412312742830}
   - component: {fileID: 2212854540829148110}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: enemyball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!58 &2212854540829148110
