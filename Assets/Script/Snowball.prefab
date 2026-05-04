@@ -169,4 +169,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86a7bfec92f148041b62ba451f89eda1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Snowball
+  damage: 40
   lifeTime: 3

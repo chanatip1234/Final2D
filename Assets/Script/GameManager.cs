@@ -10,7 +10,10 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null) instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
     public void AddScore(int amount)
@@ -21,6 +24,9 @@ public class GameManager : MonoBehaviour
 
     void UpdateScoreUI()
     {
-        scoreText.text = "Score: " + currentScore.ToString();
+        if (scoreText != null)
+        {
+            scoreText.text = currentScore.ToString();
+        }
     }
 }
