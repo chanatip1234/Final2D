@@ -34,6 +34,9 @@ public class EnemyBase : MonoBehaviour
     [Header("Attack Settings")]
     public float attackDamage = 20f;
 
+    [Header("Score Settings")]
+    public int scoreValue = 200;
+
     [HideInInspector] public Transform player;
     protected Rigidbody2D rb;
 
@@ -119,7 +122,12 @@ public class EnemyBase : MonoBehaviour
 
     protected void Die()
     {
-        Destroy(gameObject); 
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.AddScore(scoreValue);
+        }
+
+        Destroy(gameObject);
     }
 
     protected void Flip()

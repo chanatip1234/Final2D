@@ -180,4 +180,20 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    public void Heal(float amount)
+    {
+        currentHealth += amount;
+
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
+        if (healthSlider != null)
+        {
+            healthSlider.value = currentHealth;
+        }
+
+        Debug.Log("Healed! Current Health: " + currentHealth);
+    }
 }
