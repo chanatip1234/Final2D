@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/StartMenu.unity
     guid: 1c30376f66a9f7947982298149db33ad
   - enabled: 1
+    path: Assets/snowdin.unity
+    guid: f538053b2dd64e34497c743e1010b0d3
+  - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects:
