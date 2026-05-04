@@ -1,28 +1,30 @@
 using UnityEngine;
-using UnityEngine.UI; // **ต้องเพิ่มบรรทัดนี้ครับ**
+using UnityEngine.UI;
 
 public class BossEnemy : EnemyBase
 {
-    public GameObject bossUI;
+    [Header("Boss UI Settings")]
+    public GameObject bossUI; 
     private Slider bossSlider;
 
     protected override void Start()
     {
-        base.Start(); 
+        base.Start();
 
         if (bossUI != null)
         {
             bossSlider = bossUI.GetComponent<Slider>();
-            bossSlider.maxValue = health; 
+            bossSlider.maxValue = health;
+            bossSlider.value = health;
             bossUI.SetActive(false); 
         }
     }
 
     protected override void Update()
     {
-        base.Update();
+        base.Update(); 
 
-        if (player == null) return;
+        if (player == null || bossUI == null) return;
 
         float distance = Vector2.Distance(transform.position, player.position);
 
@@ -39,8 +41,7 @@ public class BossEnemy : EnemyBase
 
     public override void TakeDamage(float damage)
     {
-        base.TakeDamage(damage); 
-
+        base.TakeDamage(damage);
         if (bossUI != null && bossUI.activeSelf)
         {
             bossSlider.value = health;

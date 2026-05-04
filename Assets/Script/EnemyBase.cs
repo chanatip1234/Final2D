@@ -5,13 +5,20 @@ public class EnemyBase : MonoBehaviour
 {
     [Header("Stats")]
     public float health = 100f;
-    public bool isBoss = false;
+    public LayerMask groundLayer; 
 
     [Header("Patrol Settings")]
     public float walkSpeed = 2f;
-    public float patrolRange = 5f; 
-    private Vector2 startPos;
-    private int direction = 1;
+    protected int direction = 1;
+
+    [Header("Advanced Patrol")]
+    public Transform wallCheck;
+    public Transform ledgeCheck;
+    public float wallCheckDistance = 0.5f; 
+    public float ledgeCheckDistance = 1f;
+
+    private float lastFlipTime;
+    private float flipCooldown = 0.2f;
 
     [Header("Attack Settings")]
     public GameObject bulletPrefab;
@@ -21,13 +28,15 @@ public class EnemyBase : MonoBehaviour
     public float launchForce = 10f;
     private float nextShootTime;
 
-    public Slider healthSlider;
+    [Header("UI References")]
+    public Slider healthSlider; 
 
-    public Transform player;
+    [HideInInspector] public Transform player;
+    protected Rigidbody2D rb;
 
     protected virtual void Start()
     {
-        startPos = transform.position;
+        rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
         if (healthSlider != null)
@@ -39,10 +48,13 @@ public class EnemyBase : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (player == null) return;
+
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
         if (distanceToPlayer <= attackRange)
         {
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
             AttackPlayer();
         }
         else
@@ -51,27 +63,31 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    void Patrol()
+    protected void Patrol()
     {
-        transform.Translate(Vector2.right * direction * walkSpeed * Time.deltaTime);
+        rb.linearVelocity = new Vector2(direction * walkSpeed, rb.linearVelocity.y);
 
-        if (Vector2.Distance(startPos, transform.position) >= patrolRange)
+        bool hittingWall = Physics2D.Raycast(wallCheck.position, Vector2.right * direction, wallCheckDistance, groundLayer);
+        bool isGroundedAhead = Physics2D.Raycast(ledgeCheck.position, Vector2.down, ledgeCheckDistance, groundLayer);
+
+        if (hittingWall || !isGroundedAhead)
         {
-            direction *= -1; 
-            Flip();
+            if (Time.time >= lastFlipTime + flipCooldown)
+            {
+                Flip();
+            }
         }
     }
 
-    void AttackPlayer()
+    protected void AttackPlayer()
     {
         if (Time.time >= nextShootTime)
         {
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
-
             Vector2 shootDir = (Vector2)player.position - (Vector2)firePoint.position;
             Vector2 finalVelocity = shootDir.normalized * launchForce + (Vector2.up * 3f);
-            bullet.GetComponent<Rigidbody2D>().linearVelocity = finalVelocity;
 
+            bullet.GetComponent<Rigidbody2D>().linearVelocity = finalVelocity;
             nextShootTime = Time.time + shootCooldown;
         }
     }
@@ -79,30 +95,37 @@ public class EnemyBase : MonoBehaviour
     public virtual void TakeDamage(float damage)
     {
         health -= damage;
-
-        if (healthSlider != null)
-        {
-            healthSlider.value = health;
-        }
-
+        if (healthSlider != null) healthSlider.value = health;
         if (health <= 0) Die();
     }
 
-    void Die()
-    {  
-        Destroy(gameObject);
-    }
+    protected void Die() { Destroy(gameObject); }
 
-    void Flip()
+    protected void Flip()
     {
+        lastFlipTime = Time.time;
+        direction *= -1;
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
     }
 
-    void LateUpdate()
+    protected void LateUpdate()
     {
-        healthSlider.transform.rotation = Quaternion.identity;
+        if (healthSlider != null) healthSlider.transform.rotation = Quaternion.identity;
     }
 
+    private void OnDrawGizmos()
+    {
+        if (wallCheck != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(wallCheck.position, Vector2.right * direction * wallCheckDistance);
+        }
+        if (ledgeCheck != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawRay(ledgeCheck.position, Vector2.down * ledgeCheckDistance);
+        }
+    }
 }

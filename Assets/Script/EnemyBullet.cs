@@ -8,11 +8,11 @@ public class EnemyBullet : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-
+            
             Destroy(gameObject);
         }
 
-        if (collision.CompareTag("Ground"))
+        if (collision.CompareTag("Ground") || collision.CompareTag("Trap"))
         {
             Destroy(gameObject);
         }
