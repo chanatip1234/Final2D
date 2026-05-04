@@ -158,7 +158,17 @@ public class PlayerController : MonoBehaviour
     void Die()
     {
         Debug.Log("Player Died!");
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        StartCoroutine(WaitAndShowGameOver());
+    }
+
+    IEnumerator WaitAndShowGameOver()
+    {
+        yield return new WaitForSecondsRealtime(1.0f);
+
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.ShowGameOver();
+        }
     }
 
     void FixHealthBarRotation()
