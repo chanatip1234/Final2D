@@ -112,8 +112,24 @@ public class EnemyBase : MonoBehaviour
 
     protected void LateUpdate()
     {
-        if (healthSlider != null) healthSlider.transform.rotation = Quaternion.identity;
+        if (healthSlider != null)
+        {
+            healthSlider.transform.rotation = Quaternion.identity;
+
+            float parentDirection = transform.localScale.x;
+            Vector3 localScale = healthSlider.transform.localScale;
+
+            if (parentDirection < 0)
+            {
+                healthSlider.transform.localScale = new Vector3(-Mathf.Abs(localScale.x), localScale.y, localScale.z);
+            }
+            else
+            {
+                healthSlider.transform.localScale = new Vector3(Mathf.Abs(localScale.x), localScale.y, localScale.z);
+            }
+        }
     }
+
 
     private void OnDrawGizmos()
     {
