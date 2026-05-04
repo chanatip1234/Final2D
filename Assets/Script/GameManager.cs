@@ -10,7 +10,11 @@ public class GameManager : MonoBehaviour
     [Header("UI References")]
     public TextMeshProUGUI scoreText;      
     public GameObject gameOverPanel;       
-    public TextMeshProUGUI finalScoreText; 
+    public TextMeshProUGUI finalScoreText;
+
+    [Header("Credit UI")]
+    public GameObject creditPanel;       
+    public TextMeshProUGUI finalScoreCreditText;
 
     private int currentScore = 0;
 
@@ -38,6 +42,16 @@ public class GameManager : MonoBehaviour
         if (finalScoreText != null)
         {
             finalScoreText.text = "Your Score: " + currentScore.ToString();
+        }
+    }
+
+    public void ShowCredits()
+    {
+        Time.timeScale = 0f; 
+        creditPanel.SetActive(true);
+        if (finalScoreCreditText != null)
+        {
+            finalScoreCreditText.text = "Total Score: " + currentScore.ToString();
         }
     }
 

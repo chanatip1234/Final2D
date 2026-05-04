@@ -120,7 +120,7 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    protected void Die()
+    protected virtual void Die() 
     {
         if (GameManager.instance != null)
         {
