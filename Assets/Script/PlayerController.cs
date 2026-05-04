@@ -1,8 +1,14 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Health System")]
+    public float maxHealth = 100f;
+    private float currentHealth;
+    public Slider healthSlider;
+
     [Header("Movement")]
     public float moveSpeed = 5f;
     public float jumpForce = 8f;
@@ -45,6 +51,14 @@ public class PlayerController : MonoBehaviour
 
         originalSize = col.size;
         originalOffset = col.offset;
+
+        currentHealth = maxHealth;
+        if (healthSlider != null)
+        {
+            healthSlider.maxValue = maxHealth;
+            healthSlider.value = currentHealth;
+        }
+
     }
 
     void Update()
@@ -76,6 +90,8 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("speed", Mathf.Abs(moveInput));
         anim.SetBool("isGrounded", isGrounded);
         anim.SetBool("isSliding", isSliding);
+
+        FixHealthBarRotation();
     }
 
     void FixedUpdate()
@@ -127,5 +143,41 @@ public class PlayerController : MonoBehaviour
         GameObject ball = Instantiate(snowballPrefab, firePoint.position, Quaternion.identity);
 
         ball.GetComponent<Snowball>().Launch(direction.normalized * launchForce + (Vector2.up * 2f));
+    }
+
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        if (healthSlider != null) healthSlider.value = currentHealth;
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+    void Die()
+    {
+        Debug.Log("Player Died!");
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+    }
+
+    void FixHealthBarRotation()
+    {
+        if (healthSlider != null)
+        {
+            healthSlider.transform.rotation = Quaternion.identity;
+
+            float parentDirection = transform.localScale.x;
+            Vector3 sliderScale = healthSlider.transform.localScale;
+
+            if (parentDirection < 0)
+            {
+                healthSlider.transform.localScale = new Vector3(-Mathf.Abs(sliderScale.x), sliderScale.y, sliderScale.z);
+            }
+            else
+            {
+                healthSlider.transform.localScale = new Vector3(Mathf.Abs(sliderScale.x), sliderScale.y, sliderScale.z);
+            }
+        }
     }
 }
