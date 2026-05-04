@@ -3188,7 +3188,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &1076340568
 BoxCollider2D:
@@ -6120,6 +6120,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4334397462152731471, guid: 1b077b8c04f8c4a46a2ba3c959e99817, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4334397462152731471, guid: 1b077b8c04f8c4a46a2ba3c959e99817, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 5075669399931273333, guid: 1b077b8c04f8c4a46a2ba3c959e99817, type: 3}
       propertyPath: m_Name
       value: monster
@@ -6127,6 +6135,22 @@ PrefabInstance:
     - target: {fileID: 5272440464880097603, guid: 1b077b8c04f8c4a46a2ba3c959e99817, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903529579721150779, guid: 1b077b8c04f8c4a46a2ba3c959e99817, type: 3}
+      propertyPath: m_Size.x
+      value: 7.1823215
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903529579721150779, guid: 1b077b8c04f8c4a46a2ba3c959e99817, type: 3}
+      propertyPath: m_Size.y
+      value: 6.2674184
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903529579721150779, guid: 1b077b8c04f8c4a46a2ba3c959e99817, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.11651707
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903529579721150779, guid: 1b077b8c04f8c4a46a2ba3c959e99817, type: 3}
+      propertyPath: m_Offset.y
+      value: 1.0034325
       objectReference: {fileID: 0}
     - target: {fileID: 8141076195337256655, guid: 1b077b8c04f8c4a46a2ba3c959e99817, type: 3}
       propertyPath: m_LocalPosition.x
