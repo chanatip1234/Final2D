@@ -31,7 +31,8 @@ public class IceDrop : MonoBehaviour
     void Fall()
     {
         isFalling = true;
-        rb.bodyType = RigidbodyType2D.Dynamic; 
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.AddForce(Vector2.down * 5f, ForceMode2D.Impulse);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
